@@ -1,5 +1,5 @@
 @echo off
-title TexLoom
+title Tex
 cd /d "%~dp0"
 
 where node >nul 2>nul
@@ -11,7 +11,7 @@ if errorlevel 1 (
 
 rem ---- STOP branch: server running on port 3210 -> kill it ----
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":3210" ^| findstr "LISTENING"') do (
-  echo TexLoom is running. Stopping...
+  echo Tex is running. Stopping...
   taskkill /pid %%a /t /f >nul 2>nul
   echo Stopped. The launcher cleans itself up within ~15 seconds.
   ping -n 3 127.0.0.1 >nul
@@ -29,13 +29,13 @@ if not exist node_modules (
   )
 )
 
-echo Starting TexLoom server...
-start "TexLoom Server" /min cmd /c node launcher.cjs
+echo Starting Tex server...
+start "Tex Server" /min cmd /c node launcher.cjs
 
 echo Waiting for server, up to 120s...
 set /a n=0
 :wait
-curl -s http://localhost:3210/ 2>nul | findstr /c:"TexLoom" >nul
+curl -s http://localhost:3210/ 2>nul | findstr /c:"main.tsx" >nul
 if not errorlevel 1 goto ready
 set /a n+=1
 if %n% GEQ 120 goto timeout
@@ -43,7 +43,7 @@ ping -n 2 127.0.0.1 >nul
 goto wait
 
 :timeout
-echo [Error] Server not ready in 120s. Check the minimized "TexLoom Server" window for errors.
+echo [Error] Server not ready in 120s. Check the minimized "Tex Server" window for errors.
 pause
 exit /b 1
 
@@ -51,7 +51,7 @@ exit /b 1
 start "" "http://localhost:3210/"
 echo.
 echo ============================================
-echo  TexLoom is running. Browser opened.
+echo  Tex is running. Browser opened.
 echo.
 echo  - Close the browser page and the server
 echo    stops itself within ~15 seconds.

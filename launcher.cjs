@@ -33,7 +33,7 @@ pingServer.on('error', (err) => {
     listenRetry += 1;
     setTimeout(listen, 2000);
   } else {
-    console.error('[TexLoom] heartbeat port ' + PING_PORT + ' unavailable:', err.message);
+    console.error('[Tex] heartbeat port ' + PING_PORT + ' unavailable:', err.message);
     stop(1);
   }
 });
@@ -70,16 +70,16 @@ const child = spawn('cmd.exe', [S + 'c', 'npm run dev -- --port 3210 --strictPor
 
 child.on('exit', (code) => {
   console.log('');
-  console.log('[TexLoom] dev server exited, launcher shutting down.');
+  console.log('[Tex] dev server exited, launcher shutting down.');
   stop(code || 0);
 });
 
 watchdog = setInterval(() => {
   if (lastPing && Date.now() - lastPing > SILENCE_LIMIT) {
-    console.log('[TexLoom] browser closed (heartbeat lost), stopping server...');
+    console.log('[Tex] browser closed (heartbeat lost), stopping server...');
     stop(0);
   }
 }, WATCHDOG_TICK);
 
 listen();
-console.log('[TexLoom] launcher ready, heartbeat port ' + PING_PORT + '.');
+console.log('[Tex] launcher ready, heartbeat port ' + PING_PORT + '.');
